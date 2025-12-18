@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>LinkTools | Shorten & QR</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='cropped_circle_image.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Link<span>Tools</span></h1>
+        <p>Shorten links & create QR codes instantly.</p>
+    </header>
+
+    <div class="card">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('shortener')">URL Shortener</button>
+            <button class="tab-btn" onclick="switchTab('qr')">QR Generator</button>
+        </div>
+
+        <div id="shortener" class="content-section">
+            <input type="text" id="shorten-input" placeholder="Paste your long URL here...">
+            <button class="action-btn" onclick="shortenUrl()">Shorten URL</button>
+            
+            <div id="shorten-result" class="result-box hidden">
+                <p>Here is your short link:</p>
+                <div class="link-wrapper">
+                    <a href="#" id="short-link" target="_blank">...</a>
+                    <button onclick="copyLink()">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="qr" class="content-section hidden">
+            <input type="text" id="qr-input" placeholder="Enter URL or Text for QR...">
+            <button class="action-btn" onclick="generateQr()">Generate QR Code</button>
+            
+            <div id="qr-result" class="result-box hidden">
+                <img id="qr-image" src="" alt="QR Code">
+                <br>
+                <a id="download-btn" href="#" download="qrcode.png">Download QR</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="watermark">
+        <p>Designed by Kartik</p>
+        <a href="https://github.com/Kartik915d" target="_blank" class="github-link">
+            <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            github.com/Kartik915d
+        </a>
+    </footer>
+</div>
+
+<script>
+    function switchTab(tab) {
+        document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tab).classList.remove('hidden');
+        event.target.classList.add('active');
+    }
+
+    async function shortenUrl() {
+        const url = document.getElementById('shorten-input').value;
+        if (!url) return alert("Please enter a URL");
+
+        try {
+            const response = await fetch('/shorten', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: url })
+            });
+            const data = await response.json();
+            
+            const resultBox = document.getElementById('shorten-result');
+            const link = document.getElementById('short-link');
+            
+            link.href = data.short_url;
+            link.textContent = data.short_url;
+            resultBox.classList.remove('hidden');
+        } catch(e) {
+            alert("Error connecting to server");
+        }
+    }
+
+    async function generateQr() {
+        const url = document.getElementById('qr-input').value;
+        if (!url) return alert("Please enter text or URL");
+
+        try {
+            const response = await fetch('/generate_qr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: url })
+            });
+            const data = await response.json();
+
+            const resultBox = document.getElementById('qr-result');
+            const img = document.getElementById('qr-image');
+            const dlBtn = document.getElementById('download-btn');
+            
+            img.src = data.qr_image;
+            dlBtn.href = data.qr_image;
+            resultBox.classList.remove('hidden');
+        } catch(e) {
+            alert("Error connecting to server");
+        }
+    }
+
+    function copyLink() {
+        const link = document.getElementById('short-link').textContent;
+        navigator.clipboard.writeText(link);
+        alert("Copied to clipboard!");
+    }
+</script>
+
+</body>
+</html>

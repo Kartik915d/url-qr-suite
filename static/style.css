@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    /* Add padding so mobile users can scroll if height is small */
+    padding: 20px; 
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+}
+
+header h1 {
+    color: white;
+    margin-bottom: 5px;
+    font-size: 2.5rem;
+}
+
+header h1 span {
+    color: #ffdf6b;
+}
+
+header p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 100%;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 25px;
+    background: #f0f2f5;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.tab-btn.active {
+    background: white;
+    color: #764ba2;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
+}
+
+input:focus {
+    border-color: #764ba2;
+}
+
+.action-btn {
+    width: 100%;
+    padding: 15px;
+    background: #764ba2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.action-btn:hover {
+    background: #5b3780;
+}
+
+.hidden {
+    display: none;
+}
+
+.result-box {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    animation: fadeIn 0.5s ease;
+}
+
+.link-wrapper {
+    display: flex;
+    gap: 10px;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.link-wrapper a {
+    color: #764ba2;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    max-width: 200px;
+}
+
+.link-wrapper button {
+    background: #ddd;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+#qr-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin: 10px auto;
+    display: block;
+}
+
+#download-btn {
+    display: inline-block;
+    margin-top: 10px;
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* --- FOOTER STYLES --- */
+.watermark {
+    margin-top: 30px;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.watermark p {
+    margin-bottom: 5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.github-link:hover {
+    background: white;
+    color: #333;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE / MOBILE STYLES --- */
+@media (max-width: 600px) {
+    body {
+        /* Align to top on mobile so keyboard doesn't hide content */
+        align-items: flex-start; 
+        padding-top: 40px; 
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 20px;
+    }
+    
+    .link-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .link-wrapper a {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .link-wrapper button {
+        width: 100%;
+        padding: 10px;
+    }
+}
